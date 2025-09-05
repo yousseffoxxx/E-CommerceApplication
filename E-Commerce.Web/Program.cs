@@ -15,10 +15,20 @@ namespace E_Commerce.Web
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
 
             #endregion
 
             var app = builder.Build();
+
+            #region Data Seeding
+
+            using var scope = app.Services.CreateScope();
+
+            var objectOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+
+            objectOfDataSeeding.DataSeed();
+            #endregion
 
             #region Configure the HTTP request pipeline.
 
