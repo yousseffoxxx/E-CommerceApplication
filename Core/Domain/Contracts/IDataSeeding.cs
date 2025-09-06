@@ -2,6 +2,6 @@
 {
     public interface IDataSeeding
     {
-        public void DataSeed();
+        public Task DataSeedAsync();
     }
 }

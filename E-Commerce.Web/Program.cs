@@ -2,7 +2,7 @@ namespace E_Commerce.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +27,7 @@ namespace E_Commerce.Web
 
             var objectOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
 
-            objectOfDataSeeding.DataSeed();
+            await objectOfDataSeeding.DataSeedAsync();
             #endregion
 
             #region Configure the HTTP request pipeline.
