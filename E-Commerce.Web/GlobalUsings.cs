@@ -4,5 +4,7 @@ global using Domain.Contracts;
 global using Persistence;
 global using Persistence.Repositories;
 global using ServiceAbstraction;
+global using Service;
+
 
 
