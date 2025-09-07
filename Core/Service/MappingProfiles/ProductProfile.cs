@@ -5,10 +5,12 @@
         public ProductProfile()
         {
             CreateMap<Product, ProductDto>()
-                .ForMember(dist => dist.BrandName,
+                .ForMember(dest => dest.BrandName,
                 options => options.MapFrom(src => src.ProductBrand.Name))
-                .ForMember(dist => dist.TypeName,
-                options => options.MapFrom(src => src.ProductType.Name));
+                .ForMember(dest => dest.TypeName,
+                options => options.MapFrom(src => src.ProductType.Name))
+                .ForMember(dest => dest.PictureUrl,
+                options => options.MapFrom<PictureUrlResolver>());
 
             CreateMap<ProductBrand, BrandDto>();
 
