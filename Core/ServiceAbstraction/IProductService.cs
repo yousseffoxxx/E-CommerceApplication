@@ -3,7 +3,7 @@
     public interface IProductService
     {
         // Get all products
-        public Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+        public Task<PaginatedResult<ProductDto>> GetAllProductsAsync(ProductQueryParams queryParams);
         // Get product by id
         public Task<ProductDto> GetProductByIdAsync(int id);
         // Get all types

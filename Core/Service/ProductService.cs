@@ -2,16 +2,29 @@
 {
     public class ProductService(IUnitOfWork _unitOfWork, IMapper _mapper) : IProductService
     {
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
+        public async Task<PaginatedResult<ProductDto>> GetAllProductsAsync(ProductQueryParams queryParams)
         {
-            var products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync();
+            var repo = _unitOfWork.GetRepository<Product, int>();
+            var specifications = new ProductWithBrandAndTypeSpecifications(queryParams);
 
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+            var products = await repo.GetAllAsync(specifications);
+
+            var productsDto = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+
+            var productsCount = products.Count();
+
+            var countSpecifications = new ProductCountSpecifications(queryParams);
+
+            var totalCount = await repo.CountAsync(countSpecifications);
+
+            return new PaginatedResult<ProductDto>(queryParams.PageIndex, productsCount, totalCount, productsDto);
         }
 
         public async Task<ProductDto> GetProductByIdAsync(int id)
         {
-            var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(id);
+            var specifications = new ProductWithBrandAndTypeSpecifications(id);
+
+            var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specifications);
 
             return _mapper.Map<Product, ProductDto>(product);
         }
