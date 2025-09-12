@@ -1,4 +1,6 @@
-﻿namespace Service.MappingProfiles
+﻿using Shared.DTOs.Products;
+
+namespace Service.MappingProfiles
 {
     internal class PictureUrlResolver(IConfiguration _configuration) : IValueResolver<Product, ProductDto, string>
     {

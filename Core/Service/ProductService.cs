@@ -26,11 +26,6 @@
 
             var product = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specifications);
 
-            if(product is null)
-            {
-                throw new ProductNotFoundException(id);
-            }
-
             return _mapper.Map<Product, ProductDto>(product);
         }
 

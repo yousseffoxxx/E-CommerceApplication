@@ -1,3 +1,6 @@
-﻿global using Shared.DTOs;
-global using Shared;
+﻿global using Shared;
+global using Shared.DTOs.Basket;
+global using Shared.DTOs.Products;
+
+
 
