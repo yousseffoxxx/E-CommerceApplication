@@ -9,35 +9,28 @@ namespace E_Commerce.Web
             #region Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<StoreDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
-            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(typeof(Service.AssemblyReference).Assembly);
-            builder.Services.AddScoped<IServiceManager, ServiceManager>();
+
+            builder.Services.AddSwaggerServices();
+            builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
+            builder.Services.AddWebApplicationServices();
+
             #endregion
 
             var app = builder.Build();
 
             #region Data Seeding
 
-            using var scope = app.Services.CreateScope();
-
-            var objectOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
-
-            await objectOfDataSeeding.DataSeedAsync();
+            await app.SeedDataBaseAsync();
             #endregion
 
             #region Configure the HTTP request pipeline.
 
+            app.UseCustomExceptionMiddleWare();
+
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddleWares();
             }
 
             app.UseHttpsRedirection();
