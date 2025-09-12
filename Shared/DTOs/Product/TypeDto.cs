@@ -1,6 +1,6 @@
-﻿namespace Shared.DTOs
+﻿namespace Shared.DTOs.Products
 {
-    public class BrandDto
+    public class TypeDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;

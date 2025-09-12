@@ -1,0 +1,34 @@
+﻿namespace Presentation.Controllers
+{
+    [ApiController]
+    [Route("api/[Controller]")] // BaseUrl/api/Products
+    public class BasketController(IServiceManager _serviceManager) : ControllerBase
+    {
+        // Get Basket
+        [HttpGet] // GET BaseUrl/api/Basket
+        public async Task<ActionResult<BasketDto>> GetBasket(string key)
+        {
+            var basket = await _serviceManager.BasketService.GetBasketAsync(key);
+
+            return Ok(basket);
+        }
+
+        // Create or Update Basket
+        [HttpPost] // POST BaseUrl/api/Basket
+        public async Task<ActionResult<BasketDto>> CreateOrUpdateBasket(BasketDto basket)
+        {
+            var Basket = await _serviceManager.BasketService.CreateOrUpdateBasketAsync(basket);
+
+            return Ok(Basket);
+        }
+
+        // Delete Basket
+        [HttpDelete("{Key}")] // DELETE BaseUrl/api/Basket/gjksdlgkd246k
+        public async Task<ActionResult<bool>> DeleteBasket(string Key)
+        {
+            var result = await _serviceManager.BasketService.DeleteBasketAsync(Key);
+
+            return Ok(result);
+        }
+    }
+}
