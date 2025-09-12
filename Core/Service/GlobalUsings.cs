@@ -8,6 +8,9 @@ global using Domain.Models;
 global using System.Linq.Expressions;
 global using Shared;
 global using Service.Specifications;
+global using Domain.Exceptions;
+global using Microsoft.Extensions.DependencyInjection;
+
 
 
 
