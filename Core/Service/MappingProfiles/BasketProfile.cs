@@ -4,7 +4,7 @@
     {
         public BasketProfile()
         {
-            CreateMap<CustomerBasket, BasketDto>().ReverseMap();
+            CreateMap<Basket, BasketDto>().ReverseMap();
 
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
 

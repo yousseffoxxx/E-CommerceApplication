@@ -14,6 +14,11 @@
                 return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnectionString"));
             });
 
+            services.AddDbContext<StoreIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
+            });
+
             services.AddScoped<IDataSeeding, DataSeeding>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IBasketRepository, BasketRepository>();

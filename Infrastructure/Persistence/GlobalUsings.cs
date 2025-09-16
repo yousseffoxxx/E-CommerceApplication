@@ -10,11 +10,9 @@ global using Domain.Models;
 global using Domain.Models.Basket;
 global using Persistence.Data.DbContexts;
 global using Persistence.Repositories;
-
-
-
-
-
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Domain.Models.Identity;
+global using Microsoft.AspNetCore.Identity;
 
 
 

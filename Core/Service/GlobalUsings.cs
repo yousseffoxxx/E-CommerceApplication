@@ -1,21 +1,23 @@
-﻿global using ServiceAbstraction;
-global using AutoMapper;
-global using Domain.Contracts;
+﻿global using Domain.Contracts;
 global using Domain.Models.Products;
-global using Microsoft.Extensions.Configuration;
 global using Domain.Models;
-global using System.Linq.Expressions;
-global using Shared;
-global using Service.Specifications;
-global using Microsoft.Extensions.DependencyInjection;
+global using Domain.Models.Basket;
+global using Domain.Exceptions;
+global using Domain.Models.Identity;
 global using Shared.DTOs.Basket;
 global using Shared.DTOs.Products;
-global using Domain.Models.Basket;
-
-
-
-
-
-
-
-
+global using Shared.DTOs.Authentication;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.IdentityModel.Tokens;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using System.Linq.Expressions;
+global using System.Security.Claims;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Text;
+global using ServiceAbstraction;
+global using Service.Specifications;
+global using Shared;
+global using AutoMapper;

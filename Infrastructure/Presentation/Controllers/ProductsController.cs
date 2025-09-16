@@ -1,8 +1,7 @@
 ﻿namespace Presentation.Controllers
 {
-    [ApiController]
-    [Route("api/[Controller]")] // BaseUrl/api/Products
-    public class ProductsController(IServiceManager _serviceManager) : ControllerBase
+    // BaseUrl/api/Products
+    public class ProductsController(IServiceManager _serviceManager) : ApiController
     {
         // Get all products
         // GET BaseUrl/api/Products

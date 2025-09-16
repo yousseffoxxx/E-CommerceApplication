@@ -2,9 +2,9 @@
 {
     public interface IBasketRepository
     {
-        public Task<CustomerBasket?> GetBasketAsync(string key);
+        public Task<Basket?> GetBasketAsync(string key);
 
-        public Task<CustomerBasket?> CreateOrUpdateBasketAsync(CustomerBasket basket, TimeSpan? timeToLive = null);
+        public Task<Basket?> CreateOrUpdateBasketAsync(Basket basket, TimeSpan? timeToLive = null);
 
         public Task<bool> DeleteBasketAsync(string id);
     }

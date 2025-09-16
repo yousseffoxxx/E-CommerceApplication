@@ -1,4 +1,6 @@
-﻿namespace E_Commerce.Web.CustomMiddleWares
+﻿using Microsoft.AspNetCore.Http;
+
+namespace E_Commerce.Web.CustomMiddleWares
 {
     public class CustomExceptionHandlerMiddleWare(RequestDelegate _next,
         ILogger<CustomExceptionHandlerMiddleWare> _logger)
@@ -21,25 +23,35 @@
 
         private static async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
         {
+            // Response Object
+            var response = new ErrorToReturn()
+            {
+                ErrorMessage = ex.Message,                
+            };
+
             // Set status code for Response
             httpContext.Response.StatusCode = ex switch
             {
                 NotFoundException => StatusCodes.Status404NotFound,
+                UnAuthorizedException => StatusCodes.Status401Unauthorized,
+                ValidationException validationException => HandelValidationException(validationException, response),
                 _ => StatusCodes.Status500InternalServerError
             };
+
+            response.StatusCode = httpContext.Response.StatusCode;
 
             // Set Content Type For Response
             //httpContext.Response.ContentType = "application/json";
 
-            // Response Object
-            var response = new ErrorToReturn()
-            {
-                StatusCode = httpContext.Response.StatusCode,
-                ErrorMessage = ex.Message
-            };
-
             // Return object as Json
             await httpContext.Response.WriteAsJsonAsync(response); // automatically changes the content type to "application/json"
+        }
+
+        private static int HandelValidationException(ValidationException validationException, ErrorToReturn response)
+        {
+            response.Errors = validationException.Errors;
+
+            return StatusCodes.Status400BadRequest;
         }
 
         private static async Task HandleNotFoundEndPointAsync(HttpContext httpContext)
