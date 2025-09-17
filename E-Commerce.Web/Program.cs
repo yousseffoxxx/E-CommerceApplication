@@ -11,9 +11,12 @@ namespace E_Commerce.Web
             builder.Services.AddControllers();
 
             builder.Services.AddSwaggerServices();
-            builder.Services.AddInfrastructureServices(builder.Configuration);
-            builder.Services.AddApplicationServices();
             builder.Services.AddWebApplicationServices();
+            builder.Services.ConfigureIdentityService();
+
+            builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices(builder.Configuration);
+            builder.Services.AddJwtService(builder.Configuration);
 
             #endregion
 
@@ -34,6 +37,10 @@ namespace E_Commerce.Web
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseStaticFiles();
 

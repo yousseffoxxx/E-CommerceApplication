@@ -4,7 +4,7 @@
     {
         private readonly IDatabase _database = connection.GetDatabase();
         
-        public async Task<CustomerBasket?> GetBasketAsync(string key)
+        public async Task<Basket?> GetBasketAsync(string key)
         {
             var basket = await _database.StringGetAsync(key);
 
@@ -12,10 +12,10 @@
                 return null;
 
             else
-                return JsonSerializer.Deserialize<CustomerBasket>(basket);
+                return JsonSerializer.Deserialize<Basket>(basket);
         }
         
-        public async Task<CustomerBasket?> CreateOrUpdateBasketAsync(CustomerBasket basket, TimeSpan? timeToLive = null)
+        public async Task<Basket?> CreateOrUpdateBasketAsync(Basket basket, TimeSpan? timeToLive = null)
         {
             var jsonBasket = JsonSerializer.Serialize(basket);
 
