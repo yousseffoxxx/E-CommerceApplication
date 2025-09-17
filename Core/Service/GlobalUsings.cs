@@ -1,12 +1,14 @@
-﻿global using Domain.Contracts;
-global using Domain.Models.Products;
+﻿global using Domain.Models.Products;
 global using Domain.Models;
 global using Domain.Models.Basket;
-global using Domain.Exceptions;
 global using Domain.Models.Identity;
+global using Domain.Models.Order;
+global using Domain.Contracts;
+global using Domain.Exceptions;
 global using Shared.DTOs.Basket;
 global using Shared.DTOs.Products;
 global using Shared.DTOs.Authentication;
+global using Shared.DTOs.Order;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Options;
@@ -21,3 +23,4 @@ global using ServiceAbstraction;
 global using Service.Specifications;
 global using Shared;
 global using AutoMapper;
+
