@@ -1,6 +1,7 @@
 ﻿namespace Service
 {
-    public class AuthenticationService(UserManager<ApplicationUser> _userManager, IOptions<JwtOptions> _options) : IAuthenticationService
+    public class AuthenticationService(UserManager<ApplicationUser> _userManager,
+        IOptions<JwtOptions> _options, IMapper _mapper) : IAuthenticationService
     {
         public async Task<UserResultDto> LoginAsync(LoginDto loginModel)
         {
@@ -40,10 +41,58 @@
             return new UserResultDto(user.DisplayName, user.Email, await CreateTokenAsync(user));
         }
 
+        public async Task<bool> CheckEmailExist(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return user != null;
+        }
+
+        public async Task<AddressDto> GetUserAddress(string email)
+        {
+            var user = await _userManager.Users.Include(u => u.Address)
+                .FirstOrDefaultAsync(u => u.Email == email)
+                ?? throw new UserNotFoundException(email);
+
+            return _mapper.Map<AddressDto>(user.Address);
+        }
+
+        public async Task<UserResultDto> GetUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email)
+                ?? throw new UserNotFoundException(email);
+
+            return new UserResultDto(user.DisplayName, user.Email, await CreateTokenAsync(user));
+        }
+
+        public async Task<AddressDto> UpdateUserAddress(AddressDto address, string email)
+        {
+            var user = await _userManager.Users.Include(u => u.Address)
+                .FirstOrDefaultAsync(u => u.Email == email)
+                ?? throw new UserNotFoundException(email);
+
+            if (user.Address != null)
+            {
+                user.Address.FirstName = address.FirstName;
+                user.Address.LastName = address.LastName;
+                user.Address.Country = address.Country;
+                user.Address.City = address.City;
+                user.Address.Street = address.Street;
+            }
+            else
+            {
+                user.Address = _mapper.Map<Address>(address);
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            return _mapper.Map<AddressDto>(user.Address);
+        }
+
         private async Task<string> CreateTokenAsync(ApplicationUser user)
         {
             var jwtOptions = _options.Value;
-            
+
             // payload/Private Claims [user defined]
             var authClaims = new List<Claim>
             {
