@@ -15,6 +15,7 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.EntityFrameworkCore;
 global using System.Linq.Expressions;
 global using System.Security.Claims;
 global using System.IdentityModel.Tokens.Jwt;
@@ -23,4 +24,3 @@ global using ServiceAbstraction;
 global using Service.Specifications;
 global using Shared;
 global using AutoMapper;
-
