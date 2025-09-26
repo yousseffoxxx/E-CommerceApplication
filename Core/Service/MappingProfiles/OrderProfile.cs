@@ -6,17 +6,18 @@
         {
             CreateMap<Order, OrderDto>()
                 .ForMember(dest => dest.PaymentStatus, options => options.MapFrom(src => src.Status.ToString()))
+                .ForMember(dest => dest.Items, options => options.MapFrom(src => src.OrderItems))
                 .ForMember(dest => dest.DeliveryMethod, options => options.MapFrom(src => src.DeliveryMethod.ShortName))
-                .ForMember(dest => dest.Total, options => options.MapFrom(src => src.SubTotal + src.DeliveryMethod.Price));
+                .ForMember(dest => dest.Total, options => options.MapFrom(src => src.SubTotal + src.DeliveryMethod.Cost));
 
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(dest => dest.ProductId, options => options.MapFrom(src => src.Product.ProductId))
                 .ForMember(dest => dest.ProductName, options => options.MapFrom(src => src.Product.ProductName))
                 .ForMember(dest => dest.PictureUrl, options => options.MapFrom(src => src.Product.PictureUrl));
 
-            CreateMap<ShippingAddress, ShippingAddressDto>();
+            CreateMap<ShippingAddress, ShippingAddressDto>().ReverseMap();
             
-            CreateMap<DeliveryMethod, DeliveryMethodDto>();
+            CreateMap<DeliveryMethod, DeliveryMethodDto>().ReverseMap();
         }
     }
 }

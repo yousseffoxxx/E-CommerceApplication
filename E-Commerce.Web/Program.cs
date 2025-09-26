@@ -8,10 +8,8 @@ namespace E_Commerce.Web
 
             #region Add services to the container.
 
-            builder.Services.AddControllers();
-
             builder.Services.AddSwaggerServices();
-            builder.Services.AddWebApplicationServices();
+            builder.Services.AddWebApplicationServices(builder.Configuration);
             builder.Services.ConfigureIdentityService();
 
             builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -38,11 +36,13 @@ namespace E_Commerce.Web
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
+            app.UseCors("CORSPolicy");
+
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseStaticFiles();
 
             app.MapControllers();
 

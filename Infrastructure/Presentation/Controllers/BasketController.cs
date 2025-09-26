@@ -5,9 +5,9 @@
     {
         // Get Basket
         [HttpGet] // GET BaseUrl/api/Basket
-        public async Task<ActionResult<BasketDto>> GetBasket(string key)
+        public async Task<ActionResult<BasketDto>> GetBasket(string id)
         {
-            var basket = await _serviceManager.BasketService.GetBasketAsync(key);
+            var basket = await _serviceManager.BasketService.GetBasketAsync(id);
 
             return Ok(basket);
         }

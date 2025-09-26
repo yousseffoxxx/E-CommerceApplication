@@ -13,7 +13,7 @@ namespace Presentation.Controllers
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
 
-            var result = _serviceManager.OrderService.CreateOrderAsync(orderRequest, email);
+            var result = await _serviceManager.OrderService.CreateOrUpdateOrderAsync(orderRequest, email);
 
             return Ok(result);
         }
@@ -32,7 +32,7 @@ namespace Presentation.Controllers
 
         // Get Order By id
         // GET BaseUrl/api/Orders/id
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(Guid id)
         {
             var result = await _serviceManager.OrderService.GetOrderByIdAsync(id);

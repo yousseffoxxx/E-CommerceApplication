@@ -23,4 +23,9 @@ global using System.Text;
 global using ServiceAbstraction;
 global using Service.Specifications;
 global using Shared;
+global using Stripe;
 global using AutoMapper;
+global using Product = Domain.Models.Products.Product;
+global using Address = Domain.Models.Identity.Address;
+
+

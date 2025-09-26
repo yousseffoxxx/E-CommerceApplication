@@ -4,7 +4,7 @@
     {
         public AuthenticationProfile()
         {
-            CreateMap<Address, AddressDto>();
+            CreateMap<Address, AddressDto>().ReverseMap();
         }
     }
 }

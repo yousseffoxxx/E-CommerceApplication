@@ -2,7 +2,8 @@
 {
     public class ServiceManager(IUnitOfWork _unitOfWork,
         IMapper _mapper, IBasketRepository _basketRepository,
-        UserManager<ApplicationUser> _userManager, IOptions<JwtOptions> _options) : IServiceManager
+        UserManager<ApplicationUser> _userManager, IOptions<JwtOptions> _options,
+        IConfiguration _configuration) : IServiceManager
     {
         private readonly Lazy<IProductService> _lazyProductService = new Lazy<IProductService>(() => new ProductService(_unitOfWork, _mapper));
         public IProductService ProductService => _lazyProductService.Value;
@@ -17,5 +18,8 @@
         
         private readonly Lazy<IOrderService> _lazyOrderService = new Lazy<IOrderService>(() => new OrderService(_unitOfWork,_mapper,_basketRepository));
         public IOrderService OrderService => _lazyOrderService.Value;
+
+        private readonly Lazy<IPaymentService> _lazyPaymentService = new Lazy<IPaymentService>(() => new PaymentService(_basketRepository, _unitOfWork, _mapper, _configuration));
+        public IPaymentService PaymentService => _lazyPaymentService.Value;
     }
 }
