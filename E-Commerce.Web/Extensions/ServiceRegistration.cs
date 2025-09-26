@@ -36,11 +36,23 @@
             return services;
         }
 
-        public static IServiceCollection AddWebApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddWebApplicationServices(this IServiceCollection services,IConfiguration configuration)
         {
+            services.AddControllers();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = ApiResponseFactory.GenerateApiValidationErrorResponse;
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORSPolicy", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.WithOrigins(configuration.GetRequiredSection("Urls")["FrontBaseUrl"]);
+                });
             });
 
             return services;

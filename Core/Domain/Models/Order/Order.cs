@@ -6,20 +6,26 @@
         {
             
         }
-        public Order(string userEmail, ShippingAddress shippingAddress, decimal subTotal, ICollection<OrderItem> orderItems, DeliveryMethod deliveryMethod)
+        public Order(string userEmail, 
+            ShippingAddress shipToAddress, 
+            decimal subTotal, 
+            ICollection<OrderItem> orderItems, 
+            DeliveryMethod deliveryMethod, 
+            string paymentIntentId)
         {
             Id = Guid.NewGuid();
             UserEmail = userEmail;
-            ShippingAddress = shippingAddress;
+            this.shipToAddress = shipToAddress;
             SubTotal = subTotal;
             OrderItems = orderItems;
             DeliveryMethod = deliveryMethod;
+            PaymentIntentId = paymentIntentId;
         }
 
         // user Email
         public string UserEmail { get; set; }
         // Address
-        public ShippingAddress ShippingAddress { get; set; }
+        public ShippingAddress shipToAddress { get; set; }
         // SubTotal = Items.Q * Price
         public decimal SubTotal { get; set; }
         // OrderDate
@@ -28,7 +34,7 @@
         // Payment Status
         public OrderPaymentStatus Status { get; set; } = OrderPaymentStatus.Pending;
         // Payment Intent
-        public string PaymentIntentId { get; set; } = string.Empty;
+        public string PaymentIntentId { get; set; }
 
         // Order Items / Navigational Property
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

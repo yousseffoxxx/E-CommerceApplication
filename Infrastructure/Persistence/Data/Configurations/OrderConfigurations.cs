@@ -6,9 +6,10 @@ namespace Persistence.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderEntity> builder)
         {
-            builder.OwnsOne(o => o.ShippingAddress, a => a.WithOwner());
+            builder.OwnsOne(o => o.shipToAddress, a => a.WithOwner());
 
-            builder.HasMany(o => o.OrderItems).WithOne();
+            builder.HasMany(o => o.OrderItems).WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(o => o.Status)
                 .HasConversion(s => s.ToString(), s => Enum.Parse<OrderPaymentStatus>(s));

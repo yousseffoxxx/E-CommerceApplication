@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<DeliveryMethod> builder)
         {
-            builder.Property(d => d.Price)
+            builder.Property(d => d.Cost)
                 .HasColumnType("decimal(18,3)");
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Service
 {
-    internal class OrderService(IUnitOfWork _unitOfWork,
+    public class OrderService(IUnitOfWork _unitOfWork,
         IMapper _mapper, IBasketRepository _basketRepository) : IOrderService
     {
         public async Task<IEnumerable<OrderDto>> GetOrdersByEmailAsync(string email)
@@ -29,10 +29,10 @@
            return _mapper.Map<IEnumerable<DeliveryMethodDto>>(result);
         }
 
-        public async Task<OrderDto> CreateOrderAsync(OrderRequest orderRequest, string userEmail)
+        public async Task<OrderDto> CreateOrUpdateOrderAsync(OrderRequest orderRequest, string userEmail)
         {
             // address
-            var address = _mapper.Map<ShippingAddress>(orderRequest.ShippingAddress);
+            var address = _mapper.Map<ShippingAddress>(orderRequest.shipToAddress);
 
             // Order Items => Basket => Basket Items
             var basket = await _basketRepository.GetBasketAsync(orderRequest.BasketId)
@@ -52,11 +52,19 @@
             var deliveryMethod = await _unitOfWork.GetRepository<DeliveryMethod, int>().GetByIdAsync(orderRequest.DeliveryMethodId)
                 ?? throw new DeliveryMethodNotFoundException(orderRequest.DeliveryMethodId);
 
+            // check if there an Order with the same PaymentIntentId
+            var exOrder = await _unitOfWork.GetRepository<Order, Guid>().GetByIdAsync(new OrderWithPaymentIntentSpecifications(basket.PaymentIntentId));
+            
+            if(exOrder is not null)
+            {
+                _unitOfWork.GetRepository<Order, Guid>().Remove(exOrder);
+            }
+
             // sub Total
             var subTotal = orderItems.Sum(item => item.Price * item.Quantity);
 
             // save to database
-            var order = new Order(userEmail, address, subTotal, orderItems, deliveryMethod);
+            var order = new Order(userEmail, address, subTotal, orderItems, deliveryMethod, basket.PaymentIntentId);
 
             await _unitOfWork.GetRepository<Order, Guid>().AddAsync(order);
 
