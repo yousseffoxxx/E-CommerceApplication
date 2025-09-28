@@ -5,6 +5,7 @@
     {
         // Get all products
         // GET BaseUrl/api/Products
+        [RedisCache]
         [HttpGet]
         public async Task<ActionResult<PaginatedResult<ProductDto>>> GetAllProducts([FromQuery] ProductQueryParams queryParams)
         {
