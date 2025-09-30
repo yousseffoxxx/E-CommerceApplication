@@ -2,7 +2,8 @@
 {
     public class DataSeeding(StoreDbContext _dbContext,
         UserManager<ApplicationUser> _userManager,
-        RoleManager<IdentityRole> _roleManager) : IDataSeeding
+        RoleManager<IdentityRole> _roleManager,
+        StoreIdentityDbContext _identityDbContext) : IDataSeeding
     {
         public async Task DataSeedAsync()
         {
@@ -63,6 +64,11 @@
 
         public async Task IdentityDataSeedAsync()
         {
+            var pendingMigrations = await _identityDbContext.Database.GetPendingMigrationsAsync();
+
+            if (pendingMigrations.Any())
+                await _identityDbContext.Database.MigrateAsync();
+
             // seed default roles
             if (!_roleManager.Roles.Any())
                 await _roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
