@@ -1,34 +1,52 @@
-
 namespace E_Commerce.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            #region Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerServices();
+            builder.Services.AddWebApplicationServices(builder.Configuration);
+            builder.Services.ConfigureIdentityService();
+
+            builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices(builder.Configuration);
+            builder.Services.AddJwtService(builder.Configuration);
+
+            #endregion
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            #region Data Seeding
+
+            await app.SeedDataBaseAsync();
+            #endregion
+
+            #region Configure the HTTP request pipeline.
+
+            app.UseCustomExceptionMiddleWare();
+
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddleWares();
             }
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
+            app.UseCors("CORSPolicy");
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            #endregion
 
             app.Run();
         }

@@ -1,0 +1,13 @@
+﻿global using Domain.Contracts;
+global using Domain.Exceptions;
+global using Domain.Models.Identity;
+global using Persistence;
+global using Persistence.Data.DbContexts;
+global using E_Commerce.Web.CustomMiddleWares;
+global using E_Commerce.Web.Factories;
+global using E_Commerce.Web.Extensions;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Identity;
+global using Service;
+global using Shared.ErrorModels;
+global using Microsoft.OpenApi.Models;
