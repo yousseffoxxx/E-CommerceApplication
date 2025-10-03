@@ -89,7 +89,7 @@ The API is fully documented and testable using **Swagger UI**.
 
 ### Swagger URL
 Once the application is running, access the documentation here:
-`http://localhost:[PORT]/swagger`
+`http://localhost:[PORT]/swagger/index.html`
 
 ### Example Endpoints
 
@@ -109,12 +109,8 @@ Based on the API specification:
 ---
 
 ## 📸 Screenshots
+![SwaggerDocumentation](https://github.com/user-attachments/assets/f69726ab-7631-49d5-a4d6-92434824d334)
 
-### API Documentation (Swagger UI)
-
-### Frontend / UI Placeholder
-
----
 
 ## 👤 Author
 
